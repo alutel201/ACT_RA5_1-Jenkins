@@ -36,7 +36,6 @@ pipeline {
 
     post {
         always {
-            echo "Limpiando contenedores..."
             sh 'docker rm -f calculadora_test || true'
             sh 'docker-compose down || true'
         }
