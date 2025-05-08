@@ -2,16 +2,10 @@ pipeline {
     agent any
 
     triggers {
-        pollSCM('* * * * *')  // Comprueba si hay nuevos commits cada minuto
+        pollSCM('* * * * *') // ejecuta la pipeline al detectar cambios
     }
 
     stages {
-        stage('Clonar código') {
-            steps {
-                git 'https://github.com/alutel201/ACT_RA5_1-Jenkins.git'
-            }
-        }
-
         stage('Ejecutar test') {
             steps {
                 dir('python') {
