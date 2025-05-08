@@ -1,0 +1,44 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Construir imagen Docker') {
+            steps {
+                sh 'docker build -t calculadora-python .'
+            }
+        }
+
+        stage('Ejecutar contenedor') {
+            steps {
+                sh 'docker run -d --name calculadora_test calculadora-python sleep 5'
+            }
+        }
+
+        stage('Ejecutar tests dentro del contenedor') {
+            steps {
+                sh 'docker exec calculadora_test python3 test_calculadora.py'
+            }
+        }
+
+        stage('Verificar docker-compose') {
+            steps {
+                sh 'docker-compose config'
+            }
+        }
+
+        stage('Ejecutar docker-compose') {
+            steps {
+                sh 'docker-compose up -d'
+            }
+        }
+    }
+
+    post {
+        always {
+            echo "Limpiando contenedores..."
+            sh 'docker rm -f calculadora_test || true'
+            sh 'docker-compose down || true'
+        }
+    }
+}
