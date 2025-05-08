@@ -1,0 +1,23 @@
+pipeline {
+    agent any
+
+    triggers {
+        pollSCM('* * * * *')  // Comprueba si hay nuevos commits cada minuto
+    }
+
+    stages {
+        stage('Clonar código') {
+            steps {
+                git 'https://github.com/alutel201/ACT_RA5_1-Jenkins.git'
+            }
+        }
+
+        stage('Ejecutar test') {
+            steps {
+                dir('python') {
+                    sh 'python3 test_calculadora.py'
+                }
+            }
+        }
+    }
+}
