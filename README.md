@@ -3,14 +3,14 @@ ACT_RA5_1 : Jenkins
 
 En este repositorio tengo todo lo que necesito para realizar las tareas de Jenkins
 
-![Imagen 1](imagenes/jenkins.jpg)
+![Imagen 1](imagenes/jenkins.png)
 
-![Imagen2](imagenes/menu.jpg)
+![Imagen2](imagenes/menu.png)
 
 
 TAREAS 1 Y 2
 
-![Imagen3](imagenes/new_job.jpg)
+![Imagen3](imagenes/new_job.png)
 
 En esta primera parte tenemos en la carpeta de python dos programas simples que son la calculadora y las pruebas,
 en nuestra web jenkins configurando una pipeline tipo git, con la url de este repositorio hacia el jenkins file, 
@@ -18,13 +18,13 @@ definiendo el /main y haciendo que se ejecute cada minuto, la pipeline comprobar
 debido a lo configurado en el jenkinsfile, de ser asi, ejecutara los programas dentro de la carpeta python, siendo mas especificos,
 los test, si los test salen bien, es decir el porgrama va bien, saldra OK, ahora si el programa con los test se modifica y fallan, nos saldra en fallo en jenkins
 
-![Imagen 4](imagenes/job_funcionando.jpg)
+![Imagen 4](imagenes/job_funcionando.png)
 
-![Imagen 5](imagenes/success.jpg)
+![Imagen 5](imagenes/success.png)
 
 Esto es lo que saltaria si el test saliera mal.
 
-![Imagen 6](imagenes/fallo.jpg)
+![Imagen 6](imagenes/fallo.png)
 
 
 
