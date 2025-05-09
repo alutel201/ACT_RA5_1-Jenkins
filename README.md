@@ -1,11 +1,48 @@
 # ACT_RA5_1-Jenkins
 ACT_RA5_1 : Jenkins
 
+En este repositorio tengo todo lo que necesito para realizar las tareas de Jenkins
+
+![Imagen 1](imagenes/jenkins.jpg)
+
+![Imagen2](imagenes/menu.jpg)
+
+
+TAREAS 1 Y 2
+
+![Imagen3](imagenes/new_job.jpg)
+
+En esta primera parte tenemos en la carpeta de python dos programas simples que son la calculadora y las pruebas,
+en nuestra web jenkins configurando una pipeline tipo git, con la url de este repositorio hacia el jenkins file, 
+definiendo el /main y haciendo que se ejecute cada minuto, la pipeline comprobara si se ha realizado algun cambio en el repositorio
+debido a lo configurado en el jenkinsfile, de ser asi, ejecutara los programas dentro de la carpeta python, siendo mas especificos,
+los test, si los test salen bien, es decir el porgrama va bien, saldra OK, ahora si el programa con los test se modifica y fallan, nos saldra en fallo en jenkins
+
+![Imagen 4](imagenes/job_funcionando.jpg)
+
+![Imagen 5](imagenes/success.jpg)
+
+Esto es lo que saltaria si el test saliera mal.
+
+![Imagen 6](imagenes/fallo.jpg)
 
 
 
+Ejercicio 3.2
 
+Para este ejericio he necesitado instalar docker con apt, en vez de snap ya que me daba errores, 
+y asegurame que tenia instalado lo necesario para que ejecutara los comandos docker compose, y no docker-compose.
 
+He generado un jenkinsfile.docker, que realiza todo esto:
+
+- Ejecuta en un entorno Docker la pipeline
+- Crear una imagen de docker
+- Ejecuta el docker
+- Ejecuta los test en el docker
+
+Para que funione simplemente con tener instalado docker y docker compose, el resto es crear la pipeline igual que la anterior, solo que esta vez en vez de apuntar a el jenkinsfile, apunta a el jenkinsfile.docker.
+
+Este es el log de ejecucion correcto de la pipeline.
 
 
 Ejecucion final 
