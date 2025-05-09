@@ -4,4 +4,4 @@ services:
   calculadora:
     build: .
     container_name: calculadora_compose
-    command: python3 calculadora.py
+    command: python3 /app/python/calculadora.py
