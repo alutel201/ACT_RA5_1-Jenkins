@@ -2,8 +2,8 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
-COPY . .
+COPY ./python ./python
 
-RUN pip install --no-cache-dir -r requirements.txt || true
+WORKDIR /app/python
 
 CMD ["python3", "calculadora.py"]
