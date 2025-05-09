@@ -42,7 +42,7 @@ He generado un jenkinsfile.docker, que realiza todo esto:
 
 Para que funione simplemente con tener instalado docker y docker compose, el resto es crear la pipeline igual que la anterior, solo que esta vez en vez de apuntar a el jenkinsfile, apunta a el jenkinsfile.docker.
 
-Este es el log de ejecucion correcto de la pipeline.
+Este es el log de ejecucion correcto de la pipeline, y mas abajo, hay un ejemplo de que saldria si el test no funcionara al igual que hemos comentado antes.
 
 
 Ejecucion final 
@@ -197,3 +197,117 @@ calculadora_test<br>
 [Pipeline] // node<br>
 [Pipeline] End of Pipeline<br>
 Finished: SUCCESS
+
+
+
+Ejemplo test sale mal
+
+Lanzada por el usuario admin<br>
+Obtained Jenkinsfile.docker from git https://github.com/alutel201/ACT_RA5_1-Jenkins.git<br>
+[Pipeline] Start of Pipeline<br>
+[Pipeline] node<br>
+Running on Jenkins  in /var/lib/jenkins/workspace/docker_calculadora<br>
+[Pipeline] {<br>
+[Pipeline] stage<br>
+[Pipeline] { (Declarative: Checkout SCM)<br>
+[Pipeline] checkout<br>
+Selected Git installation does not exist. Using Default<br>
+The recommended git tool is: NONE<br>
+No credentials specified<br>
+ > git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/docker_calculadora/.git # timeout=10<br>
+Fetching changes from the remote Git repository<br>
+ > git config remote.origin.url https://github.com/alutel201/ACT_RA5_1-Jenkins.git # timeout=10<br>
+Fetching upstream changes from https://github.com/alutel201/ACT_RA5_1-Jenkins.git<br>
+ > git --version # timeout=10<br>
+ > git --version # 'git version 2.43.0'<br>
+ > git fetch --tags --force --progress -- https://github.com/alutel201/ACT_RA5_1-Jenkins.git +refs/heads/*:refs/remotes/origin/* # timeout=10<br>
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10<br>
+Checking out Revision b268688d92eef6fff6b152d978ea10a76d06a2ac (refs/remotes/origin/main)<br>
+ > git config core.sparsecheckout # timeout=10<br>
+ > git checkout -f b268688d92eef6fff6b152d978ea10a76d06a2ac # timeout=10<br>
+Commit message: "Update test_calculadora.py"<br>
+ > git rev-list --no-walk 45cf0dd477bce85f6d54f055063168d34dc31e0a # timeout=10<br>
+[Pipeline] }<br>
+[Pipeline] // stage<br>
+[Pipeline] withEnv<br>
+[Pipeline] {<br>
+[Pipeline] stage<br>
+[Pipeline] { (Construir imagen Docker)<br>
+[Pipeline] sh<br>
++ docker build -t calculadora-python .<br>
+DEPRECATED: The legacy builder is deprecated and will be removed in a future release.<br>
+            Install the buildx component to build images with BuildKit:<br>
+            https://docs.docker.com/go/buildx/<br>
+Sending build context to Docker daemon  1.592MB<br>
+Step 1/5 : FROM python:3.10-slim<br>
+ ---> b32fa0454ca1<br>
+Step 2/5 : WORKDIR /app<br>
+ ---> Using cache<br>
+ ---> 356ccf3bfd56<br>
+Step 3/5 : COPY ./python ./python<br>
+ ---> f528a861117c<br>
+Step 4/5 : WORKDIR /app/python<br>
+ ---> Running in e9475b881d3b<br>
+ ---> Removed intermediate container e9475b881d3b<br>
+ ---> f126908c4e75<br>
+Step 5/5 : CMD ["python3", "calculadora.py"]<br>
+ ---> Running in f8a357c855e4<br>
+ ---> Removed intermediate container f8a357c855e4<br>
+ ---> 98d126019a83<br>
+Successfully built 98d126019a83<br>
+Successfully tagged calculadora-python:latest<br>
+[Pipeline] }<br>
+[Pipeline] // stage<br>
+[Pipeline] stage<br>
+[Pipeline] { (Ejecutar contenedor)<br>
+[Pipeline] sh<br>
++ docker run -d --name calculadora_test calculadora-python sleep 5<br>
+164dac279b16e670419de3ab9678f4a25dbc2b65f6dad8f9457e94783cc4a7ce<br>
+[Pipeline] }<br>
+[Pipeline] // stage<br>
+[Pipeline] stage<br>
+[Pipeline] { (Ejecutar tests dentro del contenedor)<br>
+[Pipeline] sh<br>
++ docker exec calculadora_test python3 /app/python/test_calculadora.py<br>
+F<br>
+======================================================================<br>
+FAIL: test_multiplicacion (__main__.TestCalculadora)<br>
+----------------------------------------------------------------------<br>
+Traceback (most recent call last):<br>
+  File "/app/python/test_calculadora.py", line 9, in test_multiplicacion<br>
+    self.assertEqual(multiplicar(0, 10), 1)<br>
+AssertionError: 0 != 1<br>
+----------------------------------------------------------------------<br>
+Ran 1 test in 0.007s<br>
+<br>
+FAILED (failures=1)<br>
+[Pipeline] }<br>
+[Pipeline] // stage<br>
+[Pipeline] stage<br>
+[Pipeline] { (Verificar docker-compose)<br>
+Stage "Verificar docker-compose" skipped due to earlier failure(s)<br>
+[Pipeline] getContext<br>
+[Pipeline] }<br>
+[Pipeline] // stage<br>
+[Pipeline] stage<br>
+[Pipeline] { (Ejecutar docker-compose) (hide)<br>
+Stage "Ejecutar docker-compose" skipped due to earlier failure(s)<br>
+[Pipeline] getContext<br>
+[Pipeline] }<br>
+[Pipeline] // stage<br>
+[Pipeline] stage<br>
+[Pipeline] { (Declarative: Post Actions)<br>
+[Pipeline] sh<br>
++ docker rm -f calculadora_test<br>
+calculadora_test<br>
+[Pipeline] sh<br>
++ docker compose down<br>
+[Pipeline] }<br>
+[Pipeline] // stage<br>
+[Pipeline] }<br>
+[Pipeline] // withEnv<br>
+[Pipeline] }<br>
+[Pipeline] // node<br>
+[Pipeline] End of Pipeline<br>
+ERROR: script returned exit code 1<br>
+Finished: FAILURE
