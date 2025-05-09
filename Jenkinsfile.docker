@@ -17,7 +17,7 @@ pipeline {
 
         stage('Ejecutar tests dentro del contenedor') {
             steps {
-                sh 'docker exec calculadora_test python3 test_calculadora.py'
+                sh 'docker exec calculadora_test python3 /app/python/test_calculadora.py'
             }
         }
 
